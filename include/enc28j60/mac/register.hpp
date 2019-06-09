@@ -1,14 +1,15 @@
 #pragma once
 
+#include <cstdint>
 #include <enc28j60/detail/base_register.hpp>
 
 namespace enc28j60::mac {
 
-class control_register_1 : public base_register<unsigned char> {
-    using base = base_register<unsigned char>;
+class control_register_1 : public base_register<std::uint8_t> {
+    using base = base_register<std::uint8_t>;
     
     struct bits {
-        enum : unsigned char {
+        enum : std::uint8_t {
             loopback = 0x10,
             tx_pause = 0x08,
             rx_pause = 0x04,
@@ -26,7 +27,7 @@ public:
         receive(true);
     }
     
-    constexpr control_register_1(unsigned char data) : base(data) {}
+    constexpr control_register_1(std::uint8_t data) : base(data) {}
     
     constexpr control_register_1 &loopback(bool enable) {
         base::set_bits(bits::loopback, enable);
@@ -74,11 +75,11 @@ public:
     }
 };
 
-class control_register_2 : public base_register<unsigned char> {
-    using base = base_register<unsigned char>;
+class control_register_2 : public base_register<std::uint8_t> {
+    using base = base_register<std::uint8_t>;
     
     struct bits {
-        enum : unsigned char {
+        enum : std::uint8_t {
             reset = 0x80,
             rng_reset = 0x40,
             rx_reset = 0x08,
@@ -98,7 +99,7 @@ public:
         reset_transmit_function(false);
     }
     
-    constexpr control_register_2(unsigned char data) : base(data) {}
+    constexpr control_register_2(std::uint8_t data) : base(data) {}
     
     constexpr control_register_2 &reset(bool enable) {
         base::set_bits(bits::reset, enable);
@@ -155,11 +156,11 @@ public:
     }
 };
 
-class control_register_3 : public base_register<unsigned char> {
-    using base = base_register<unsigned char>;
+class control_register_3 : public base_register<std::uint8_t> {
+    using base = base_register<std::uint8_t>;
     
     struct bits {
-        enum : unsigned char {
+        enum : std::uint8_t {
             pad_crc = 0x80 + 0x40 + 0x20,
             tx_crc = 0x10,
             proprietary_header = 0x08,
@@ -170,7 +171,7 @@ class control_register_3 : public base_register<unsigned char> {
     };
     
 public:
-    enum pad_conf : unsigned char {
+    enum pad_conf : std::uint8_t {
         /**
          * MAC will automatically detect VLAN Protocol frames
          * which have a 8100h type field and automatically pad
@@ -207,7 +208,7 @@ public:
         full_duplex(true);
     }
     
-    constexpr control_register_3(unsigned char data) : base(data) {}
+    constexpr control_register_3(std::uint8_t data) : base(data) {}
     
     constexpr control_register_3 &transmit_crc(bool enable) {
         base::set_bits(bits::tx_crc, enable);
@@ -265,11 +266,11 @@ public:
     }
 };
 
-class control_register_4 : public base_register<unsigned char> {
-    using base = base_register<unsigned char>;
+class control_register_4 : public base_register<std::uint8_t> {
+    using base = base_register<std::uint8_t>;
     
     struct bits {
-        enum : unsigned char {
+        enum : std::uint8_t {
             defer_transmission = 0x40,
             no_backoff_on_back_pressure = 0x20,
             no_backoff = 0x10,
@@ -287,7 +288,7 @@ public:
         pure_preamble_enforcement(false);
     }
     
-    constexpr control_register_4(unsigned char data) : base(data) {}
+    constexpr control_register_4(std::uint8_t data) : base(data) {}
     
     constexpr control_register_4 defer_transmission(bool enable) {
         base::set_bits(bits::defer_transmission, enable);
@@ -335,11 +336,11 @@ public:
     }
 };
 
-class btb_inter_package_gap : public base_register<unsigned char> {
-    using base = base_register<unsigned char>;
+class btb_inter_package_gap : public base_register<std::uint8_t> {
+    using base = base_register<std::uint8_t>;
     
     struct bits {
-        enum : unsigned char {
+        enum : std::uint8_t {
             delay = 0xff - 0x80
         };
     };
@@ -349,24 +350,24 @@ public:
         delay(0x15);
     }
     
-    constexpr btb_inter_package_gap(unsigned char data) : base(data) {}
+    constexpr btb_inter_package_gap(std::uint8_t data) : base(data) {}
     
-    constexpr btb_inter_package_gap &delay(unsigned char time) {
+    constexpr btb_inter_package_gap &delay(std::uint8_t time) {
         base::set_bits(bits::delay, 0);
         base::set_bits(time & bits::delay, 1);
         return *this;
     }
     
-    constexpr unsigned char delay() const {
+    constexpr std::uint8_t delay() const {
         return base::get_bits(bits::delay);
     }
 };
 
-class phy_support : public base_register<unsigned char> {
-    using base = base_register<unsigned char>;
+class phy_support : public base_register<std::uint8_t> {
+    using base = base_register<std::uint8_t>;
     
     struct bits {
-        enum : unsigned char {
+        enum : std::uint8_t {
             interface_reset = 0x80,
             reserved_4 = 0x10,
             rmii_reset = 0x08,
