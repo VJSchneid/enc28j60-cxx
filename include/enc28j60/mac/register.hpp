@@ -1,3 +1,5 @@
+#pragma once
+
 #include <enc28j60/detail/base_register.hpp>
 
 namespace enc28j60::mac {
