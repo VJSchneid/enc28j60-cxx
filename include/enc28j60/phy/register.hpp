@@ -400,13 +400,31 @@ class status_1: public base_register<std::uint16_t> {
     
     struct bits {
         enum : std::uint16_t {
-            
+            full_duplex_cap = 0x1000,
+            half_duplex_cap = 0x0800,
+            latching_link = 0x0004,
+            latching_jabber = 0x0002
         };
     };
 
 public:
-    constexpr status_1() {}
     constexpr status_1(std::uint16_t data) : base(data) {}
+    
+    constexpr bool full_duplex_capable() const {
+        return base::check_bits(bits::full_duplex_cap);
+    }
+    
+    constexpr bool half_duplex_capable() const {
+        return base::check_bits(bits::half_duplex_cap);
+    }
+    
+    constexpr bool link_up_latched() const {
+        return base::check_bits(bits::latching_link);
+    }
+    
+    constexpr bool jabber_latched() const {
+        return base::check_bits(bits::latching_jabber);
+    }
 };
 
 class status_2: public base_register<std::uint16_t> {
@@ -414,14 +432,41 @@ class status_2: public base_register<std::uint16_t> {
 
     struct bits {
         enum : std::uint16_t {
-            
+            tx_status = 0x2000,
+            rx_status = 0x1000,
+            collision_status = 0x0800,
+            link_status = 0x0400,
+            duplex_status = 0x0200,
+            polarity_status = 0x0010
         };
     };
     
 public:
-    
-    constexpr status_2() {}
     constexpr status_2(std::uint16_t data) : base(data) {}
+    
+    constexpr bool transmitting() const {
+        return base::check_bits(bits::tx_status);
+    }
+    
+    constexpr bool receiving() const {
+        return base::check_bits(bits::rx_status);
+    }
+    
+    constexpr bool collision_occured() const {
+        return base::check_bits(bits::collision_status);
+    }
+    
+    constexpr bool link_up() const {
+        return base::check_bits(bits::link_status);
+    }
+    
+    constexpr bool full_duplex() const {
+        return base::check_bits(bits::duplex_status);
+    }
+    
+    constexpr bool reversed_polarity() const {
+        return base::check_bits(bits::polarity_status);
+    }
 };
 
 }
